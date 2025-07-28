@@ -51,10 +51,7 @@ const BookService: React.FC = () => {
   const [matchedProviders, setMatchedProviders] = useState<ServiceProvider[]>(
     []
   );
-  const [showTimeModal, setShowTimeModal] = useState({
-    timeFrom: false,
-    timeTo: false,
-  });
+
   const [snNotifications, setSNNotifications] = useState<SNNotification[]>([]);
   const [showNotificationsList, setShowNotificationsList] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -135,7 +132,7 @@ const BookService: React.FC = () => {
   const [availableLocations, setAvailableLocations] = useState<string[]>([]);
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
-  const [previousStep, setPreviousStep] = useState(1);
+  const [_previousStep, setPreviousStep] = useState(1);
 
   const handleCustomTimeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -145,12 +142,6 @@ const BookService: React.FC = () => {
       ...bookingData,
       [field]: e.target.value,
     });
-  };
-
-  const validateTime = (time: string): boolean => {
-    // Simple time validation using regex (HH:MM format, 24-hour)
-    const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    return timeRegex.test(time);
   };
 
   const fetchSNNotifications = async () => {
@@ -405,41 +396,6 @@ const BookService: React.FC = () => {
     }
   };
 
-  const generateTimeSlots = () => {
-    const slots = [];
-    const now = new Date();
-    const isToday = bookingData.date === getTodayString();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-
-    for (let hour = 8; hour <= 20; hour++) {
-      // For today, only show future times
-      if (isToday && hour < currentHour) {
-        continue; // Skip past hours
-      }
-
-      // Add hour:00 if it's in the future
-      if (
-        !isToday ||
-        hour > currentHour ||
-        (hour === currentHour && currentMinute < 0)
-      ) {
-        slots.push(`${hour.toString().padStart(2, "0")}:00`);
-      }
-
-      // Add hour:30 if not 20:00 and it's in the future
-      if (
-        hour !== 20 &&
-        (!isToday ||
-          hour > currentHour ||
-          (hour === currentHour && currentMinute < 30))
-      ) {
-        slots.push(`${hour.toString().padStart(2, "0")}:30`);
-      }
-    }
-    return slots;
-  };
-
   const getTodayString = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -469,7 +425,9 @@ const BookService: React.FC = () => {
         // Check if data.locations exists and is an array
         if (data && data.locations && Array.isArray(data.locations)) {
           // Remove duplicates and sort alphabetically
-          const uniqueLocations = [...new Set(data.locations)].sort();
+          const uniqueLocations = [
+            ...new Set(data.locations),
+          ].sort() as string[];
           setAvailableLocations(uniqueLocations);
         } else {
           // Handle case where data structure is unexpected

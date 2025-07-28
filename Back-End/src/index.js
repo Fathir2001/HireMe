@@ -35,14 +35,24 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = socketIo(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:5173"], // Allow both origins
+    origin: process.env.CORS_ORIGINS
+      ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
+      : ["http://localhost:3000", "http://localhost:5173"],
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 
 // Configure CORS
-app.use(cors());
+const corsOptions = {
+  origin: process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
+    : ["http://localhost:3000", "http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
@@ -52,7 +62,58 @@ app.set("io", io);
 
 // Basic route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to HireMe API" });
+  res.json({
+    message: "Welcome to HireMe API",
+    status: "running",
+    timestamp: new Date().toISOString(),
+    version: "1.0.0",
+  });
+});
+
+// Health check route for monitoring
+app.get("/health", (req, res) => {
+  res.json({
+    status: "healthy",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Admin seeding route (remove in production)
+app.get("/seed-admin", async (req, res) => {
+  try {
+    const Admin = require("./models/admin");
+
+    // Check if admin already exists
+    const existingAdmin = await Admin.findOne({ email: "admin@HireMe.com" });
+    if (existingAdmin) {
+      return res.json({
+        message: "Admin user already exists",
+        email: "admin@HireMe.com",
+      });
+    }
+
+    // Create admin user
+    const adminData = {
+      email: "admin@HireMe.com",
+      password: "admin123", // This will be hashed automatically
+    };
+
+    const admin = new Admin(adminData);
+    await admin.save();
+
+    res.json({
+      message: "Admin user created successfully",
+      email: adminData.email,
+      defaultPassword: "admin123 (please change after first login)",
+    });
+  } catch (error) {
+    console.error("Error seeding admin:", error);
+    res.status(500).json({
+      error: "Failed to seed admin user",
+      message: error.message,
+    });
+  }
 });
 
 // API Routes

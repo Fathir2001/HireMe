@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./trackService.css";
-import Modal from "react-modal";
-Modal.setAppElement("#root");
+import React, { useEffect, useState } from "react";
 import {
-  FaCalendarCheck,
-  FaTools,
-  FaMapMarkerAlt,
-  FaClock,
-  FaUser,
-  FaPhone,
   FaArrowLeft,
   FaCheckCircle,
   FaHourglass,
-  FaTimesCircle,
+  FaPhone,
   FaSpinner,
+  FaTimesCircle,
+  FaTools,
+  FaUser,
 } from "react-icons/fa";
+import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import "./trackService.css";
+Modal.setAppElement("#root");
 
 interface ServiceRequest {
   _id: string; // This should be the MongoDB ObjectId as a string
@@ -75,16 +72,10 @@ const TrackService: React.FC = () => {
   } | null>(null);
   const [otpModalOpen, setOtpModalOpen] = useState(false);
   const [generatedOTP, setGeneratedOTP] = useState<string | null>(null);
-  const [otpExpiry, setOtpExpiry] = useState<Date | null>(null);
-  const [otpServiceId, setOtpServiceId] = useState<string | null>(null);
+  const [_otpExpiry, setOtpExpiry] = useState<Date | null>(null);
+  const [_otpServiceId, setOtpServiceId] = useState<string | null>(null);
   const [otpCountdown, setOtpCountdown] = useState<number>(0);
   const [otpGenerating, setOtpGenerating] = useState(false);
-
-  const debugRequestId = (requestId: string) => {
-    console.log("Debug requestId:", requestId);
-    console.log("Length:", requestId.length);
-    console.log("Is ObjectId format:", /^[0-9a-fA-F]{24}$/.test(requestId));
-  };
 
   useEffect(() => {
     const fetchServiceRequests = async () => {
@@ -115,7 +106,7 @@ const TrackService: React.FC = () => {
         // Log all service IDs for debugging
         console.log(
           "Available service IDs:",
-          data.map((service: any) => service._id)
+          data.map((service: { _id: string }) => service._id)
         );
 
         setServiceRequests(data);
@@ -133,10 +124,12 @@ const TrackService: React.FC = () => {
         if (rejectedResponse.ok) {
           const rejectedData = await rejectedResponse.json();
           // Add a flag to identify rejected services
-          const rejectedWithFlag = rejectedData.map((item: any) => ({
-            ...item,
-            isRejected: true,
-          }));
+          const rejectedWithFlag = rejectedData.map(
+            (item: { isRejected?: boolean }) => ({
+              ...item,
+              isRejected: true,
+            })
+          );
           console.log("Rejected services:", rejectedWithFlag);
           setRejectedServices(rejectedWithFlag);
         }
@@ -154,38 +147,6 @@ const TrackService: React.FC = () => {
 
     fetchServiceRequests();
   }, [navigate]);
-
-  // Add a debug function in your component
-  const testServiceById = async (serviceId: string) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      console.log("Testing service with ID:", serviceId);
-      const response = await fetch(
-        `http://localhost:5000/api/service-requests/test-service/${serviceId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
-      console.log("Test service response:", data);
-
-      if (data.found) {
-        console.log("Service found:", data.service);
-        return true;
-      } else {
-        console.log("Service not found");
-        return false;
-      }
-    } catch (error) {
-      console.error("Error testing service:", error);
-      return false;
-    }
-  };
 
   // Add this function to fetch the accepted service ID based on request ID
   const getAcceptedServiceId = async (requestId: string) => {
@@ -292,6 +253,7 @@ const TrackService: React.FC = () => {
 
   useEffect(() => {
     fetchAllServiceData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchAllServiceData = async () => {
@@ -614,6 +576,7 @@ const TrackService: React.FC = () => {
     const timeString = timeParts[0];
     const period = timeParts[1] || "";
 
+    // eslint-disable-next-line prefer-const
     let [hours, minutes] = timeString.split(":").map(Number);
 
     // Convert to 24-hour format if PM
@@ -648,6 +611,7 @@ const TrackService: React.FC = () => {
     const timeString = timeParts[0];
     const period = timeParts[1] || "";
 
+    // eslint-disable-next-line prefer-const
     let [hours, minutes] = timeString.split(":").map(Number);
 
     // Convert to 24-hour format if PM

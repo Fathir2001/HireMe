@@ -1,5 +1,5 @@
 {
-  "name": "HireMe",
+  "name": "hireme",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.vite",
+    "postinstall": "npm run type-check"
   },
   "dependencies": {
     "@types/react-modal": "^3.16.3",
