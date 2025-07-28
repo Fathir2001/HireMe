@@ -13,9 +13,10 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { API_CONFIG } from "../../config/api";
 import "./settings.css";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = API_CONFIG.API_BASE;
 
 interface AdminProfile {
   email: string;

@@ -12,6 +12,7 @@ import {
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { API_CONFIG } from "../../config/api";
 import "./trackService.css";
 Modal.setAppElement("#root");
 
@@ -214,7 +215,7 @@ const TrackService: React.FC = () => {
       const payload = JSON.parse(atob(tokenParts[1]));
       const userId = payload.id;
 
-      const socket = io("http://localhost:5000");
+      const socket = io(API_CONFIG.SOCKET_URL);
 
       socket.on("connect", () => {
         console.log("Connected to WebSocket for service start notifications");
