@@ -10,7 +10,7 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { buildApiUrl } from "../../config/api";
+import { API_ENDPOINTS } from "../../config/api";
 import "./customers.css";
 
 // Updated interfaces based on your MongoDB models
@@ -63,9 +63,6 @@ interface CustomerDetailsModalProps {
   customer: Customer | null;
   onClose: () => void;
 }
-
-// API base URL using centralized configuration
-const API_BASE_URL = buildApiUrl("");
 
 // Customer Details Modal Component
 const CustomerDetailsModal: React.FC<CustomerDetailsModalProps> = ({
@@ -208,14 +205,12 @@ const CustomersPage: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        let endpoint = "";
         let transformedData: Customer[] = [];
 
         if (activeTab === "service-needer") {
-          // Updated to use the correct backend route
-          endpoint = `${API_BASE_URL}/service-needers/all`;
-
-          const response = await axios.get(endpoint);
+          const response = await axios.get(
+            API_ENDPOINTS.ADMIN.ALL_SERVICE_NEEDERS
+          );
 
           // Transform the service needer data
           transformedData = response.data.map((item: ServiceNeeder) => ({
@@ -229,10 +224,9 @@ const CustomersPage: React.FC = () => {
             servicesRequested: item.servicesRequested || 0,
           }));
         } else {
-          // Fixed endpoint to match your backend route structure
-          endpoint = `${API_BASE_URL}/service-providers/approved`;
-
-          const response = await axios.get(endpoint);
+          const response = await axios.get(
+            API_ENDPOINTS.SERVICE_PROVIDER.APPROVED
+          );
 
           // Transform the service provider data
           transformedData = response.data.map((item: ServiceProvider) => ({

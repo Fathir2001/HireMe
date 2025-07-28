@@ -27,6 +27,10 @@ export const API_ENDPOINTS = {
   ADMIN: {
     LOGIN: buildApiUrl('admin/login'),
     DASHBOARD: buildApiUrl('analytics/dashboard'),
+    ALL_SERVICE_NEEDERS: buildApiUrl('service-needers/all'),
+    COMPLETED_SERVICES: buildApiUrl('service-requests/completed-services'),
+    ACTIVE_SERVICES: buildApiUrl('service-requests/active-services'),
+    ALL_SERVICE_REQUESTS: buildApiUrl('service-requests/all'),
   },
   
   // Service Needer endpoints

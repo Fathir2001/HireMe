@@ -21,10 +21,8 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { buildApiUrl } from "../../config/api";
+import { API_ENDPOINTS } from "../../config/api";
 import "./dashboard.css";
-
-const API_BASE_URL = buildApiUrl("");
 
 interface ActivityItem {
   id: string;
@@ -182,6 +180,9 @@ const AdminDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
+        const token = localStorage.getItem("adminToken");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         // Fetch real data from all collections
         const [
           serviceNeedersResponse,
@@ -190,11 +191,11 @@ const AdminDashboard: React.FC = () => {
           activeServicesResponse,
           serviceRequestsResponse,
         ] = await Promise.all([
-          axios.get(`${API_BASE_URL}/service-needers/all`),
-          axios.get(`${API_BASE_URL}/service-providers/approved`),
-          axios.get(`${API_BASE_URL}/service-requests/completed-services`),
-          axios.get(`${API_BASE_URL}/service-requests/active-services`),
-          axios.get(`${API_BASE_URL}/service-requests/all`),
+          axios.get(API_ENDPOINTS.ADMIN.ALL_SERVICE_NEEDERS, { headers }),
+          axios.get(API_ENDPOINTS.SERVICE_PROVIDER.APPROVED, { headers }),
+          axios.get(API_ENDPOINTS.ADMIN.COMPLETED_SERVICES, { headers }),
+          axios.get(API_ENDPOINTS.ADMIN.ACTIVE_SERVICES, { headers }),
+          axios.get(API_ENDPOINTS.ADMIN.ALL_SERVICE_REQUESTS, { headers }),
         ]);
 
         const serviceNeedersCount = serviceNeedersResponse.data.length;
