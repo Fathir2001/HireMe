@@ -202,6 +202,25 @@ git push
 
 Koyeb will automatically redeploy with the fix.
 
+### ❌ Port Configuration Issue
+
+**Symptoms:** App starts but instance stops with SIGTERM, logs show "Server is running on port 5000"
+
+**Problem:** Koyeb expects your app on port 8000, but it's running on port 5000
+
+**Solution:** This was already fixed in the latest version, but if you encounter it:
+
+1. **Check Koyeb Environment Variables**: Ensure `PORT=8000` is set
+2. **Verify Code**: Your `index.js` should have `const PORT = process.env.PORT || 8000;`
+3. **Force Redeploy**: In Koyeb dashboard, go to "Deployments" → "Redeploy latest"
+
+**Quick Fix:**
+
+```bash
+# If still showing port 5000, update the code:
+const PORT = process.env.PORT || 8000;  // Change 5000 to 8000
+```
+
 ### ❌ App Crashes on Startup
 
 **Symptoms:** Service shows as "unhealthy" or keeps restarting
