@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
+import { API_ENDPOINTS } from '../../config/api';
 import './registerN.css';
 
 const ServiceNeederRegister: React.FC = () => {
@@ -22,7 +23,7 @@ const ServiceNeederRegister: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   try {
-    const response = await fetch('http://localhost:5000/api/service-needers/register', {
+    const response = await fetch(API_ENDPOINTS.SERVICE_NEEDER.REGISTER, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

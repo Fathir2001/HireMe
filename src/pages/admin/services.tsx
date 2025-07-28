@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { buildApiUrl } from "../../config/api";
 import "./services.css";
 
 // Interface to match backend data structure
@@ -53,7 +54,7 @@ interface ServiceDetailsModalProps {
   onClose: () => void;
 }
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = buildApiUrl('');
 
 // Service Details Modal Component
 const ServiceDetailsModal: React.FC<ServiceDetailsModalProps> = ({

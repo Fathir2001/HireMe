@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import { API_CONFIG, API_ENDPOINTS } from "../../config/api";
 import "./homePage.css";
 import io from "socket.io-client";
 
@@ -94,7 +95,7 @@ const ServiceProviderHomePage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/service-requests/notifications/${notificationId}/details`,
+        API_ENDPOINTS.SERVICE_REQUEST.NOTIFICATION_DETAILS(notificationId),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -137,7 +138,7 @@ const ServiceProviderHomePage: React.FC = () => {
       console.log("Fetching notifications...");
 
       const response = await fetch(
-        "http://localhost:5000/api/service-requests/notifications",
+        API_ENDPOINTS.SERVICE_REQUEST.NOTIFICATIONS,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,7 +170,7 @@ const ServiceProviderHomePage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/service-requests/notifications/mark-read",
+        API_ENDPOINTS.SERVICE_REQUEST.NOTIFICATIONS_MARK_READ,
         {
           method: "PATCH",
           headers: {
@@ -207,7 +208,7 @@ const ServiceProviderHomePage: React.FC = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/service-requests/reject-service/${serviceRequestId}`,
+        API_ENDPOINTS.SERVICE_REQUEST.REJECT_SERVICE(serviceRequestId),
         {
           method: "POST",
           headers: {
@@ -255,7 +256,7 @@ const ServiceProviderHomePage: React.FC = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/service-requests/${serviceRequestId}/accept`,
+        API_ENDPOINTS.SERVICE_REQUEST.ACCEPT_SERVICE(serviceRequestId),
         {
           method: "POST",
           headers: {
@@ -294,7 +295,7 @@ const ServiceProviderHomePage: React.FC = () => {
   useEffect(() => {
     if (!provider?._id) return;
 
-    const socket = io("http://localhost:5000");
+    const socket = io(API_CONFIG.SOCKET_URL);
     const providerId = provider._id;
 
     console.log("Provider ID for socket:", providerId); // Add this log
@@ -341,7 +342,7 @@ const ServiceProviderHomePage: React.FC = () => {
     const fetchProviderData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/service-providers/profile",
+          API_ENDPOINTS.SERVICE_PROVIDER.PROFILE,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -419,7 +420,7 @@ const ServiceProviderHomePage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/service-providers/profile/update",
+        API_ENDPOINTS.SERVICE_PROVIDER.UPDATE_PROFILE,
         {
           method: "PUT",
           headers: {

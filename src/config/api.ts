@@ -31,6 +31,8 @@ export const API_ENDPOINTS = {
   
   // Service Needer endpoints
   SERVICE_NEEDER: {
+    REGISTER: buildApiUrl('service-needers/register'),
+    LOGIN: buildApiUrl('service-needers/login'),
     FORGOT_PASSWORD: buildApiUrl('service-needers/forgot-password'),
     RESET_PASSWORD: buildApiUrl('service-needers/reset-password'),
     FIND_PROVIDERS: buildApiUrl('service-needers/find-providers'),
@@ -44,6 +46,12 @@ export const API_ENDPOINTS = {
     REJECTED: buildApiUrl('service-providers/rejected'),
     APPROVE: (id: string) => buildApiUrl(`service-providers/approve/${id}`),
     REJECT: (id: string) => buildApiUrl(`service-providers/reject/${id}`),
+    REGISTER: buildApiUrl('service-providers/register'),
+    LOGIN: buildApiUrl('service-providers/login'),
+    PROFILE: buildApiUrl('service-providers/profile'),
+    UPDATE_PROFILE: buildApiUrl('service-providers/profile/update'),
+    FORGOT_PASSWORD: buildApiUrl('service-providers/forgot-password'),
+    RESET_PASSWORD: buildApiUrl('service-providers/reset-password'),
   },
   
   // Service Request endpoints
@@ -60,6 +68,12 @@ export const API_ENDPOINTS = {
     VERIFY_OTP: buildApiUrl('service-requests/start-service/verify-otp'),
     SN_NOTIFICATIONS: buildApiUrl('service-requests/sn-notifications'),
     MARK_READ: buildApiUrl('service-requests/sn-notifications/mark-read'),
+    ALL_SERVICE_PROVIDERS: buildApiUrl('service-requests/all-service-providers'),
+    NOTIFICATIONS: buildApiUrl('service-requests/notifications'),
+    NOTIFICATION_DETAILS: (id: string) => buildApiUrl(`service-requests/notifications/${id}/details`),
+    NOTIFICATIONS_MARK_READ: buildApiUrl('service-requests/notifications/mark-read'),
+    REJECT_SERVICE: (id: string) => buildApiUrl(`service-requests/reject-service/${id}`),
+    ACCEPT_SERVICE: (id: string) => buildApiUrl(`service-requests/${id}/accept`),
   },
 } as const;
 

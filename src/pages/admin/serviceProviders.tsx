@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaCheck, FaTimes, FaSpinner, FaArrowLeft, FaSearch, FaUserCog } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../../config/api";
 import "./serviceProviders.css";
 
 interface ProviderRequest {
@@ -139,9 +140,9 @@ const ServiceProviders: React.FC = () => {
         setLoading(true);
         const [pendingResponse, approvedResponse, rejectedResponse] =
           await Promise.all([
-            axios.get("http://localhost:5000/api/service-providers/all"),
-            axios.get("http://localhost:5000/api/service-providers/approved"),
-            axios.get("http://localhost:5000/api/service-providers/rejected"),
+            axios.get(API_ENDPOINTS.SERVICE_PROVIDER.ALL),
+            axios.get(API_ENDPOINTS.SERVICE_PROVIDER.APPROVED),
+            axios.get(API_ENDPOINTS.SERVICE_PROVIDER.REJECTED),
           ]);
 
         setPendingRequests(
@@ -187,7 +188,7 @@ const ServiceProviders: React.FC = () => {
     try {
       if (newStatus === "approved") {
         await axios.put(
-          `http://localhost:5000/api/service-providers/approve/${requestId}`
+          API_ENDPOINTS.SERVICE_PROVIDER.APPROVE(requestId)
         );
 
         const approvedProvider = pendingRequests.find(
@@ -215,7 +216,7 @@ const ServiceProviders: React.FC = () => {
         alert("Service provider approved successfully!");
       } else {
         await axios.put(
-          `http://localhost:5000/api/service-providers/reject/${requestId}`
+          API_ENDPOINTS.SERVICE_PROVIDER.REJECT(requestId)
         );
 
         const rejectedProvider = pendingRequests.find(

@@ -11,6 +11,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
 import "./allServiceProviders.css";
 
 interface ServiceProvider {
@@ -50,7 +51,7 @@ const AllServiceProviders: React.FC = () => {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/service-requests/all-service-providers",
+          API_ENDPOINTS.SERVICE_REQUEST.ALL_SERVICE_PROVIDERS,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -90,7 +91,7 @@ const AllServiceProviders: React.FC = () => {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/service-requests/all-service-providers",
+        API_ENDPOINTS.SERVICE_REQUEST.ALL_SERVICE_PROVIDERS,
         {
           headers: {
             Authorization: `Bearer ${token}`,

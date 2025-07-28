@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaUserCircle } from "react-icons/fa";
+import { API_ENDPOINTS } from "../../config/api";
 import "./login.css";
 
 const ServiceProviderLogin: React.FC = () => {
@@ -23,7 +24,7 @@ const ServiceProviderLogin: React.FC = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5000/api/service-providers/login",
+        API_ENDPOINTS.SERVICE_PROVIDER.LOGIN,
         {
           method: "POST",
           headers: {

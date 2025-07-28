@@ -10,6 +10,7 @@ import {
   FaCheckCircle,
   FaMoneyBillWave,
 } from "react-icons/fa";
+import { API_ENDPOINTS } from "../../config/api";
 import "./register.css";
 
 const ServiceProviderRegister: React.FC = () => {
@@ -98,7 +99,7 @@ const ServiceProviderRegister: React.FC = () => {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/service-providers/register",
+        API_ENDPOINTS.SERVICE_PROVIDER.REGISTER,
         {
           method: "POST",
           headers: {

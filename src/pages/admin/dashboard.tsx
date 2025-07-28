@@ -21,9 +21,10 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { buildApiUrl } from "../../config/api";
 import "./dashboard.css";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = buildApiUrl('');
 
 interface ActivityItem {
   id: string;

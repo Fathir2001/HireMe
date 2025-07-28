@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { buildApiUrl } from "../../config/api";
 import "./customers.css";
 
 // Updated interfaces based on your MongoDB models
@@ -63,7 +64,8 @@ interface CustomerDetailsModalProps {
   onClose: () => void;
 }
 
-const API_BASE_URL = "http://localhost:5000/api";
+// API base URL using centralized configuration
+const API_BASE_URL = buildApiUrl('');
 
 // Customer Details Modal Component
 const CustomerDetailsModal: React.FC<CustomerDetailsModalProps> = ({

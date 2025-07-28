@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
 import "./login.css";
 
 const ForgotPasswordSP: React.FC = () => {
@@ -17,7 +18,7 @@ const ForgotPasswordSP: React.FC = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5000/api/service-providers/forgot-password",
+        API_ENDPOINTS.SERVICE_PROVIDER.FORGOT_PASSWORD,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -46,7 +47,7 @@ const ForgotPasswordSP: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/service-providers/reset-password",
+        API_ENDPOINTS.SERVICE_PROVIDER.RESET_PASSWORD,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

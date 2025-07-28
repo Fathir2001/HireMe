@@ -13,9 +13,10 @@ import {
 import { useNavigate } from "react-router-dom";
 // @ts-expect-error - html2pdf.js doesn't have TypeScript definitions
 import html2pdf from "html2pdf.js";
+import { buildApiUrl } from "../../config/api";
 import "./reports.css";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = buildApiUrl('');
 
 interface RevenueData {
   month: string;
