@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { API_CONFIG, buildApiUrl } from "../../config/api";
 import "./services.css";
@@ -361,7 +361,6 @@ const ServiceProviderServices: React.FC = () => {
 
               <div className="sp-service-footer">
                 <p>Accepted on: {formatDate(service.acceptedAt)}</p>
-                
               </div>
             </div>
           ))}

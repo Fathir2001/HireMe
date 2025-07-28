@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaUserShield, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUserShield } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "../../config/api";
 import "./login.css";

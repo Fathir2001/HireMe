@@ -178,15 +178,12 @@ const BookService: React.FC = () => {
   const markNotificationsAsRead = async () => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(
-        API_ENDPOINTS.SERVICE_REQUEST.MARK_READ,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await fetch(API_ENDPOINTS.SERVICE_REQUEST.MARK_READ, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUnreadCount(0);
       setSNNotifications(snNotifications.map((n) => ({ ...n, read: true })));
     } catch (error) {
@@ -346,22 +343,19 @@ const BookService: React.FC = () => {
         location: bookingData.location.toLowerCase(),
       };
 
-      const response = await fetch(
-        API_ENDPOINTS.SERVICE_REQUEST.CREATE,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            ...normalizedBookingData,
-            providerId,
-            totalHours,
-            totalFee,
-          }),
-        }
-      );
+      const response = await fetch(API_ENDPOINTS.SERVICE_REQUEST.CREATE, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          ...normalizedBookingData,
+          providerId,
+          totalHours,
+          totalFee,
+        }),
+      });
 
       const data = await response.json();
       setBookingResponse({

@@ -73,9 +73,7 @@ const AdminAnalytics: React.FC = () => {
   const fetchAnalyticsData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        API_ENDPOINTS.ADMIN.DASHBOARD
-      );
+      const response = await fetch(API_ENDPOINTS.ADMIN.DASHBOARD);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

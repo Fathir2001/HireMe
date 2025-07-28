@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_ENDPOINTS } from "../../config/api";
 import "../serviceNeeder/loginN.css";
 
