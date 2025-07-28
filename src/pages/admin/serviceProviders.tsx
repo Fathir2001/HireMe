@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { FaCheck, FaTimes, FaSpinner, FaArrowLeft, FaSearch, FaUserCog } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import {
+  FaArrowLeft,
+  FaCheck,
+  FaSearch,
+  FaSpinner,
+  FaTimes,
+  FaUserCog,
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "../../config/api";
 import "./serviceProviders.css";
 
@@ -26,16 +33,19 @@ interface ProviderRequest {
 interface ProviderDetailsModalProps {
   provider: ProviderRequest | null;
   onClose: () => void;
-  onStatusChange?: (providerId: string, status: "approved" | "rejected") => Promise<void>;
+  onStatusChange?: (
+    providerId: string,
+    status: "approved" | "rejected"
+  ) => Promise<void>;
 }
 
-const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({ 
-  provider, 
-  onClose, 
-  onStatusChange 
+const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
+  provider,
+  onClose,
+  onStatusChange,
 }) => {
   if (!provider) return null;
-  
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -44,14 +54,19 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
             <FaUserCog />
             <h2>{provider.fullName}</h2>
           </div>
-          <button className="close-button" onClick={onClose}>×</button>
+          <button className="close-button" onClick={onClose}>
+            ×
+          </button>
         </div>
         <div className="modal-body">
           <div className="detail-row">
             <span className="detail-label">Status:</span>
             <span className={`status-badge ${provider.status}`}>
-              {provider.status === "pending" && <FaSpinner className="spinning" />}
-              {provider.status.charAt(0).toUpperCase() + provider.status.slice(1)}
+              {provider.status === "pending" && (
+                <FaSpinner className="spinning" />
+              )}
+              {provider.status.charAt(0).toUpperCase() +
+                provider.status.slice(1)}
             </span>
           </div>
           <div className="detail-row">
@@ -80,7 +95,10 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
           </div>
           <div className="detail-row">
             <span className="detail-label">Availability:</span>
-            <span>{provider.availableDays.join(", ")}, {provider.timeFrom} - {provider.timeTo}</span>
+            <span>
+              {provider.availableDays.join(", ")}, {provider.timeFrom} -{" "}
+              {provider.timeTo}
+            </span>
           </div>
           <div className="detail-row">
             <span className="detail-label">Application Date:</span>
@@ -100,17 +118,19 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
           )}
         </div>
         <div className="modal-footer">
-          <button className="secondary-btn" onClick={onClose}>Close</button>
+          <button className="secondary-btn" onClick={onClose}>
+            Close
+          </button>
           {provider.status === "pending" && onStatusChange && (
             <>
-              <button 
-                className="approve-btn" 
+              <button
+                className="approve-btn"
                 onClick={() => onStatusChange(provider._id, "approved")}
               >
                 <FaCheck /> Approve Provider
               </button>
-              <button 
-                className="reject-btn" 
+              <button
+                className="reject-btn"
                 onClick={() => onStatusChange(provider._id, "rejected")}
               >
                 <FaTimes /> Reject Provider
@@ -126,13 +146,20 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
 const ServiceProviders: React.FC = () => {
   const navigate = useNavigate();
   const [pendingRequests, setPendingRequests] = useState<ProviderRequest[]>([]);
-  const [approvedProviders, setApprovedProviders] = useState<ProviderRequest[]>([]);
-  const [rejectedProviders, setRejectedProviders] = useState<ProviderRequest[]>([]);
+  const [approvedProviders, setApprovedProviders] = useState<ProviderRequest[]>(
+    []
+  );
+  const [rejectedProviders, setRejectedProviders] = useState<ProviderRequest[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<"pending" | "approved" | "rejected">("pending");
+  const [filter, setFilter] = useState<"pending" | "approved" | "rejected">(
+    "pending"
+  );
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedProvider, setSelectedProvider] = useState<ProviderRequest | null>(null);
+  const [selectedProvider, setSelectedProvider] =
+    useState<ProviderRequest | null>(null);
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -187,9 +214,7 @@ const ServiceProviders: React.FC = () => {
   ) => {
     try {
       if (newStatus === "approved") {
-        await axios.put(
-          API_ENDPOINTS.SERVICE_PROVIDER.APPROVE(requestId)
-        );
+        await axios.put(API_ENDPOINTS.SERVICE_PROVIDER.APPROVE(requestId));
 
         const approvedProvider = pendingRequests.find(
           (req) => req._id === requestId
@@ -207,7 +232,7 @@ const ServiceProviders: React.FC = () => {
             ...providers,
           ]);
         }
-        
+
         // Close modal if the current selected provider is the one being approved
         if (selectedProvider && selectedProvider._id === requestId) {
           setSelectedProvider(null);
@@ -215,9 +240,7 @@ const ServiceProviders: React.FC = () => {
 
         alert("Service provider approved successfully!");
       } else {
-        await axios.put(
-          API_ENDPOINTS.SERVICE_PROVIDER.REJECT(requestId)
-        );
+        await axios.put(API_ENDPOINTS.SERVICE_PROVIDER.REJECT(requestId));
 
         const rejectedProvider = pendingRequests.find(
           (req) => req._id === requestId
@@ -235,7 +258,7 @@ const ServiceProviders: React.FC = () => {
             ...providers,
           ]);
         }
-        
+
         // Close modal if the current selected provider is the one being rejected
         if (selectedProvider && selectedProvider._id === requestId) {
           setSelectedProvider(null);
@@ -265,12 +288,13 @@ const ServiceProviders: React.FC = () => {
     }
   };
 
-  const filteredProviders = getProviders().filter(provider => 
-    provider.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    provider.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    provider.serviceType.some(service => 
-      service.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+  const filteredProviders = getProviders().filter(
+    (provider) =>
+      provider.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      provider.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      provider.serviceType.some((service) =>
+        service.toLowerCase().includes(searchTerm.toLowerCase())
+      )
   );
 
   const handleViewDetails = (provider: ProviderRequest) => {
@@ -285,7 +309,10 @@ const ServiceProviders: React.FC = () => {
     <div className="provider-reqs-container">
       <header className="providers-header">
         <div className="header-left">
-          <button className="back-button" onClick={() => navigate("/admin/dashboard")}>
+          <button
+            className="back-button"
+            onClick={() => navigate("/admin/dashboard")}
+          >
             <FaArrowLeft />
           </button>
           <h1>Service Provider Management</h1>
@@ -319,7 +346,7 @@ const ServiceProviders: React.FC = () => {
             Rejected
           </button>
         </div>
-        
+
         <div className="search-filter-container">
           <div className="search-box">
             <FaSearch className="search-icon" />
@@ -342,9 +369,9 @@ const ServiceProviders: React.FC = () => {
         <div className="error-message">{error}</div>
       ) : filteredProviders.length === 0 ? (
         <div className="no-data-message">
-          {searchTerm ? 
-            `No results found for "${searchTerm}". Try a different search term.` : 
-            `No ${filter} service providers found.`}
+          {searchTerm
+            ? `No results found for "${searchTerm}". Try a different search term.`
+            : `No ${filter} service providers found.`}
         </div>
       ) : (
         <div className="requests-grid">
@@ -353,8 +380,11 @@ const ServiceProviders: React.FC = () => {
               <div className="request-header">
                 <h3>{provider.fullName}</h3>
                 <span className={`status-badge ${provider.status}`}>
-                  {provider.status === "pending" && <FaSpinner className="spinning" />}
-                  {provider.status.charAt(0).toUpperCase() + provider.status.slice(1)}
+                  {provider.status === "pending" && (
+                    <FaSpinner className="spinning" />
+                  )}
+                  {provider.status.charAt(0).toUpperCase() +
+                    provider.status.slice(1)}
                 </span>
               </div>
               <div className="request-details">
@@ -364,11 +394,15 @@ const ServiceProviders: React.FC = () => {
                 </p>
                 <p>
                   <span className="label">Services:</span>
-                  <span className="value">{provider.serviceType.join(", ")}</span>
+                  <span className="value">
+                    {provider.serviceType.join(", ")}
+                  </span>
                 </p>
                 <p>
                   <span className="label">Service Fee:</span>
-                  <span className="value price-tag">LKR {provider.serviceFee}/hr</span>
+                  <span className="value price-tag">
+                    LKR {provider.serviceFee}/hr
+                  </span>
                 </p>
                 <p>
                   <span className="label">Area:</span>
@@ -376,12 +410,14 @@ const ServiceProviders: React.FC = () => {
                 </p>
                 <p>
                   <span className="label">Application Date:</span>
-                  <span className="value">{new Date(provider.createdAt).toLocaleDateString()}</span>
+                  <span className="value">
+                    {new Date(provider.createdAt).toLocaleDateString()}
+                  </span>
                 </p>
               </div>
               <div className="card-footer">
-                <button 
-                  className="view-details-btn" 
+                <button
+                  className="view-details-btn"
                   onClick={() => handleViewDetails(provider)}
                 >
                   View Details
@@ -390,13 +426,17 @@ const ServiceProviders: React.FC = () => {
                   <div className="action-buttons">
                     <button
                       className="approve-btn"
-                      onClick={() => handleStatusChange(provider._id, "approved")}
+                      onClick={() =>
+                        handleStatusChange(provider._id, "approved")
+                      }
                     >
                       <FaCheck /> Approve
                     </button>
                     <button
                       className="reject-btn"
-                      onClick={() => handleStatusChange(provider._id, "rejected")}
+                      onClick={() =>
+                        handleStatusChange(provider._id, "rejected")
+                      }
                     >
                       <FaTimes /> Reject
                     </button>
@@ -413,7 +453,11 @@ const ServiceProviders: React.FC = () => {
         <ProviderDetailsModal
           provider={selectedProvider}
           onClose={closeModal}
-          onStatusChange={selectedProvider.status === "pending" ? handleStatusChange : undefined}
+          onStatusChange={
+            selectedProvider.status === "pending"
+              ? handleStatusChange
+              : undefined
+          }
         />
       )}
     </div>

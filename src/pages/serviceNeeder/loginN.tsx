@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
-import { API_ENDPOINTS } from '../../config/api';
-import './loginN.css';
+import React, { useState } from "react";
+import { FaEnvelope, FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
+import "./loginN.css";
 
 const ServiceNeederLogin: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-    setError(''); // Clear error when user types
+    setError(""); // Clear error when user types
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch(API_ENDPOINTS.SERVICE_NEEDER.LOGIN, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -34,18 +34,18 @@ const ServiceNeederLogin: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+        throw new Error(data.message || "Login failed");
       }
 
       // Store the token and user data in localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-      console.log('Login successful:', data);
-      navigate('/book-service');
+      console.log("Login successful:", data);
+      navigate("/book-service");
     } catch (error) {
-      console.error('Login failed:', error);
-      setError(error instanceof Error ? error.message : 'Login failed');
+      console.error("Login failed:", error);
+      setError(error instanceof Error ? error.message : "Login failed");
     }
   };
 
@@ -54,9 +54,9 @@ const ServiceNeederLogin: React.FC = () => {
       <div className="login-card">
         <h1>Welcome Back</h1>
         <p>Login to access your HireMe account</p>
-        
+
         {error && <div className="error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <FaEnvelope className="input-icon" />
@@ -83,7 +83,7 @@ const ServiceNeederLogin: React.FC = () => {
           </div>
 
           <div className="forgot-password">
-            <span onClick={() => navigate('/forgot-password')}>
+            <span onClick={() => navigate("/forgot-password")}>
               Forgot Password?
             </span>
           </div>
@@ -94,8 +94,8 @@ const ServiceNeederLogin: React.FC = () => {
         </form>
 
         <p className="register-link">
-          Don't have an account?{' '}
-          <span onClick={() => navigate('/service-needer/register')}>
+          Don't have an account?{" "}
+          <span onClick={() => navigate("/service-needer/register")}>
             Register here
           </span>
         </p>

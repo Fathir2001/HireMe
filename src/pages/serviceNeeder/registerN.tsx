@@ -1,60 +1,60 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
-import { API_ENDPOINTS } from '../../config/api';
-import './registerN.css';
+import React, { useState } from "react";
+import { FaEnvelope, FaLock, FaPhone, FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
+import "./registerN.css";
 
 const ServiceNeederRegister: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phoneNumber: ''
+    name: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const response = await fetch(API_ENDPOINTS.SERVICE_NEEDER.REGISTER, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    e.preventDefault();
+    try {
+      const response = await fetch(API_ENDPOINTS.SERVICE_NEEDER.REGISTER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Registration failed');
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      // Store the token in localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      console.log("Registration successful:", data);
+      navigate("/service-needer/login");
+    } catch (error) {
+      console.error("Registration failed:", error);
+      // You might want to add error handling UI here
     }
-
-    // Store the token in localStorage
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-
-    console.log('Registration successful:', data);
-    navigate('/service-needer/login');
-  } catch (error) {
-    console.error('Registration failed:', error);
-    // You might want to add error handling UI here
-  }
-};
+  };
 
   return (
     <div className="register-container">
       <div className="register-card">
         <h1>Create Account</h1>
         <p>Join HireMe to find the best service providers</p>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <FaUser className="input-icon" />
@@ -110,8 +110,8 @@ const ServiceNeederRegister: React.FC = () => {
         </form>
 
         <p className="login-link">
-          Already have an account?{' '}
-          <span onClick={() => navigate('/service-needer/login')}>
+          Already have an account?{" "}
+          <span onClick={() => navigate("/service-needer/login")}>
             Login here
           </span>
         </p>

@@ -16,7 +16,7 @@ import html2pdf from "html2pdf.js";
 import { buildApiUrl } from "../../config/api";
 import "./reports.css";
 
-const API_BASE_URL = buildApiUrl('');
+const API_BASE_URL = buildApiUrl("");
 
 interface RevenueData {
   month: string;

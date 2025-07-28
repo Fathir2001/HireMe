@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import {
+  FaCheckCircle,
   FaClock,
   FaEnvelope,
   FaLock,
   FaMapMarkerAlt,
+  FaMoneyBillWave,
   FaPhone,
   FaTools,
   FaUserCircle,
-  FaCheckCircle,
-  FaMoneyBillWave,
 } from "react-icons/fa";
 import { API_ENDPOINTS } from "../../config/api";
 import "./register.css";
@@ -98,16 +98,13 @@ const ServiceProviderRegister: React.FC = () => {
         serviceFee: Number(formData.serviceFee),
       };
 
-      const response = await fetch(
-        API_ENDPOINTS.SERVICE_PROVIDER.REGISTER,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(submitData),
-        }
-      );
+      const response = await fetch(API_ENDPOINTS.SERVICE_PROVIDER.REGISTER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submitData),
+      });
 
       const data = await response.json();
 
@@ -150,7 +147,8 @@ const ServiceProviderRegister: React.FC = () => {
 
         <div className="revenue-notice revenue-notice-top">
           <p className="revenue-notice-text">
-            <strong>Important:</strong> You need to pay 15% of your revenue which are earned in this platform.
+            <strong>Important:</strong> You need to pay 15% of your revenue
+            which are earned in this platform.
           </p>
         </div>
 

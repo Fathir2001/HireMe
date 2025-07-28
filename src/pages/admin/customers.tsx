@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   FaArrowLeft,
+  FaEnvelope,
   FaEye,
   FaMapMarkerAlt,
+  FaPhone,
   FaRegCalendarAlt,
   FaSearch,
-  FaEnvelope,
-  FaPhone,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { buildApiUrl } from "../../config/api";
 import "./customers.css";
 
@@ -65,7 +65,7 @@ interface CustomerDetailsModalProps {
 }
 
 // API base URL using centralized configuration
-const API_BASE_URL = buildApiUrl('');
+const API_BASE_URL = buildApiUrl("");
 
 // Customer Details Modal Component
 const CustomerDetailsModal: React.FC<CustomerDetailsModalProps> = ({
@@ -271,7 +271,6 @@ const CustomersPage: React.FC = () => {
     fetchCustomers();
   }, [activeTab]);
 
-  
   // Effect to filter customers based on search term
   useEffect(() => {
     if (searchTerm.trim() === "") {

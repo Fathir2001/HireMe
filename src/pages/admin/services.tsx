@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   FaArrowLeft,
   FaEye,
@@ -7,7 +8,6 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { buildApiUrl } from "../../config/api";
 import "./services.css";
 
@@ -54,7 +54,7 @@ interface ServiceDetailsModalProps {
   onClose: () => void;
 }
 
-const API_BASE_URL = buildApiUrl('');
+const API_BASE_URL = buildApiUrl("");
 
 // Service Details Modal Component
 const ServiceDetailsModal: React.FC<ServiceDetailsModalProps> = ({

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
 import { API_CONFIG, API_ENDPOINTS } from "../../config/api";
 import "./homePage.css";
-import io from "socket.io-client";
 
 Modal.setAppElement("#root");
 
@@ -341,14 +341,11 @@ const ServiceProviderHomePage: React.FC = () => {
 
     const fetchProviderData = async () => {
       try {
-        const response = await fetch(
-          API_ENDPOINTS.SERVICE_PROVIDER.PROFILE,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(API_ENDPOINTS.SERVICE_PROVIDER.PROFILE, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (response.ok) {
           const data = await response.json();
