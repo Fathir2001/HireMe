@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { FaUserShield, FaEnvelope, FaLock } from "react-icons/fa";
-import "./login.css";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
+import "./login.css";
 
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const AdminLogin: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch(API_ENDPOINTS.ADMIN.LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

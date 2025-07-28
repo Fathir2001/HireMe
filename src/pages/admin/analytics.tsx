@@ -31,6 +31,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { API_ENDPOINTS } from "../../config/api";
 import "./analytics.css";
 
 interface AnalyticsData {
@@ -73,7 +74,7 @@ const AdminAnalytics: React.FC = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "http://localhost:5000/api/analytics/dashboard"
+        API_ENDPOINTS.ADMIN.DASHBOARD
       );
 
       if (!response.ok) {

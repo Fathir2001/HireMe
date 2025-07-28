@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
 import "./bookService.css";
 Modal.setAppElement("#root");
 
@@ -152,7 +153,7 @@ const BookService: React.FC = () => {
       console.log("Fetching notifications..."); // Debug log
 
       const response = await fetch(
-        "http://localhost:5000/api/service-requests/sn-notifications",
+        API_ENDPOINTS.SERVICE_REQUEST.SN_NOTIFICATIONS,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -178,7 +179,7 @@ const BookService: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await fetch(
-        "http://localhost:5000/api/service-requests/sn-notifications/mark-read",
+        API_ENDPOINTS.SERVICE_REQUEST.MARK_READ,
         {
           method: "PATCH",
           headers: {
@@ -288,7 +289,7 @@ const BookService: React.FC = () => {
       console.log("Sending booking data:", bookingData); // Debug log
 
       const response = await fetch(
-        "http://localhost:5000/api/service-needers/find-providers",
+        API_ENDPOINTS.SERVICE_NEEDER.FIND_PROVIDERS,
         {
           method: "POST",
           headers: {
@@ -346,7 +347,7 @@ const BookService: React.FC = () => {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/service-requests/create",
+        API_ENDPOINTS.SERVICE_REQUEST.CREATE,
         {
           method: "POST",
           headers: {
@@ -410,7 +411,7 @@ const BookService: React.FC = () => {
       if (!token) return;
 
       const response = await fetch(
-        "http://localhost:5000/api/service-needers/available-locations",
+        API_ENDPOINTS.SERVICE_NEEDER.AVAILABLE_LOCATIONS,
         {
           headers: {
             Authorization: `Bearer ${token}`,

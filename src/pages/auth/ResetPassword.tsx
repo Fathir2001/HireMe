@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
+import { API_ENDPOINTS } from "../../config/api";
 import "../serviceNeeder/loginN.css";
 
 const ResetPassword: React.FC = () => {
@@ -20,7 +21,7 @@ const ResetPassword: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/service-needers/reset-password",
+        API_ENDPOINTS.SERVICE_NEEDER.RESET_PASSWORD,
         {
           method: "POST",
           headers: {

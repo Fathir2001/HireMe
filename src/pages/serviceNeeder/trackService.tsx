@@ -12,7 +12,7 @@ import {
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { API_CONFIG } from "../../config/api";
+import { API_CONFIG, API_ENDPOINTS } from "../../config/api";
 import "./trackService.css";
 Modal.setAppElement("#root");
 
@@ -89,7 +89,7 @@ const TrackService: React.FC = () => {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/service-requests/my-requests",
+          API_ENDPOINTS.SERVICE_REQUEST.MY_REQUESTS,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@ const TrackService: React.FC = () => {
 
         // Also fetch rejected services
         const rejectedResponse = await fetch(
-          "http://localhost:5000/api/service-requests/my-rejected-services",
+          API_ENDPOINTS.SERVICE_REQUEST.MY_REJECTED,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -157,7 +157,7 @@ const TrackService: React.FC = () => {
 
       // Make a request to get accepted service ID for this request
       const response = await fetch(
-        `http://localhost:5000/api/service-requests/accepted-service-id/${requestId}`,
+        API_ENDPOINTS.SERVICE_REQUEST.ACCEPTED_SERVICE_ID(requestId),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ const TrackService: React.FC = () => {
 
       // Fetch regular service requests
       const requestsResponse = await fetch(
-        "http://localhost:5000/api/service-requests/my-requests",
+        API_ENDPOINTS.SERVICE_REQUEST.MY_REQUESTS,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -278,7 +278,7 @@ const TrackService: React.FC = () => {
 
       // Fetch rejected services
       const rejectedResponse = await fetch(
-        "http://localhost:5000/api/service-requests/my-rejected-services",
+        API_ENDPOINTS.SERVICE_REQUEST.MY_REJECTED,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -288,7 +288,7 @@ const TrackService: React.FC = () => {
 
       // Fetch connected services
       const connectedResponse = await fetch(
-        "http://localhost:5000/api/service-requests/my-connected-services",
+        API_ENDPOINTS.SERVICE_REQUEST.MY_CONNECTED,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -298,7 +298,7 @@ const TrackService: React.FC = () => {
 
       // Fetch active services
       const activeResponse = await fetch(
-        "http://localhost:5000/api/service-requests/my-active-services",
+        API_ENDPOINTS.SERVICE_REQUEST.MY_ACTIVE,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -308,7 +308,7 @@ const TrackService: React.FC = () => {
 
       // Fetch completed services
       const completedResponse = await fetch(
-        "http://localhost:5000/api/service-requests/my-completed-services",
+        API_ENDPOINTS.SERVICE_REQUEST.MY_COMPLETED,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -431,7 +431,7 @@ const TrackService: React.FC = () => {
       console.log("Requesting OTP for service:", requestId);
 
       const response = await fetch(
-        `http://localhost:5000/api/service-requests/start-service/${requestId}/generate-otp`,
+        API_ENDPOINTS.SERVICE_REQUEST.START_SERVICE_OTP(requestId),
         {
           method: "POST",
           headers: {

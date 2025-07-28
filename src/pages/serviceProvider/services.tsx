@@ -1,9 +1,10 @@
-import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-Modal.setAppElement("#root");
+import { io } from "socket.io-client";
+import { API_CONFIG, buildApiUrl } from "../../config/api";
 import "./services.css";
+Modal.setAppElement("#root");
 
 interface ServiceDetails {
   serviceType: string;
@@ -57,7 +58,7 @@ const ServiceProviderServices: React.FC = () => {
     const fetchAcceptedServices = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/service-requests/provider-accepted-services",
+          buildApiUrl("service-requests/provider-accepted-services"),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -101,7 +102,7 @@ const ServiceProviderServices: React.FC = () => {
 
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/service-requests/start-service/verify-otp",
+        buildApiUrl("service-requests/start-service/verify-otp"),
         {
           method: "POST",
           headers: {
@@ -153,7 +154,7 @@ const ServiceProviderServices: React.FC = () => {
       const payload = JSON.parse(atob(tokenParts[1]));
       const userId = payload.id;
 
-      const socket = io("http://localhost:5000");
+      const socket = io(API_CONFIG.SOCKET_URL);
 
       socket.on("serviceOtpGenerated", (data) => {
         // Check if this event is for current provider
