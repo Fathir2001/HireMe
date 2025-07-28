@@ -204,7 +204,7 @@ const verifyEmailConfig = async () => {
 };
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   await verifyEmailConfig();

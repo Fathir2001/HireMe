@@ -186,6 +186,22 @@ VITE_SOCKET_URL=https://hireme-backend-your-app-id.koyeb.app
 - Check all dependencies are listed
 - Verify Node.js compatibility
 
+### ❌ "Cannot find module 'socket.io'" Error
+
+**Symptoms:** App crashes with `Error: Cannot find module 'socket.io'`
+
+**Solution:** This was already fixed in the latest version, but if you encounter it:
+
+```bash
+cd Back-End
+npm install socket.io@^4.8.1
+git add .
+git commit -m "Add missing socket.io dependency"
+git push
+```
+
+Koyeb will automatically redeploy with the fix.
+
 ### ❌ App Crashes on Startup
 
 **Symptoms:** Service shows as "unhealthy" or keeps restarting
