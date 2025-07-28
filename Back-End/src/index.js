@@ -37,7 +37,11 @@ const io = socketIo(server, {
   cors: {
     origin: process.env.CORS_ORIGINS
       ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
-      : ["http://localhost:3000", "http://localhost:5173"],
+      : [
+          "http://localhost:3000", 
+          "http://localhost:5173", 
+          "https://hireme-app-deploy.netlify.app"
+        ],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -47,7 +51,11 @@ const io = socketIo(server, {
 const corsOptions = {
   origin: process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
-    : ["http://localhost:3000", "http://localhost:5173"],
+    : [
+        "http://localhost:3000", 
+        "http://localhost:5173", 
+        "https://hireme-app-deploy.netlify.app"
+      ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,
 };
