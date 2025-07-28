@@ -40,7 +40,7 @@ const io = socketIo(server, {
       : [
           "http://localhost:3000",
           "http://localhost:5173",
-          "https://hireme-app-deploy.netlify.app",
+          "https://hireme-f.netlify.app",
         ],
     methods: ["GET", "POST"],
     credentials: true,
@@ -54,7 +54,7 @@ const corsOptions = {
     : [
         "http://localhost:3000",
         "http://localhost:5173",
-        "https://hireme-app-deploy.netlify.app",
+        "https://hireme-f.netlify.app",
       ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,
