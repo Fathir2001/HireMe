@@ -1,28 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { FaAward, FaStar, FaUsers, FaGlobe, FaHandshake, FaSmile } from 'react-icons/fa';
-import Logo from '../components/Logo';
-import './firstPage.css';
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import {
+  FaAward,
+  FaGlobe,
+  FaHandshake,
+  FaSmile,
+  FaStar,
+  FaUsers,
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Logo from "../components/Logo";
+import "./firstPage.css";
 
 const achievements = [
-  { icon: FaAward, value: '5+', label: 'Years Experience' },
-  { icon: FaStar, value: '1000+', label: 'Happy Customers' },
-  { icon: FaUsers, value: '500+', label: 'Expert Technicians' },
-  { icon: FaGlobe, value: '50+', label: 'Service Locations' }
+  { icon: FaAward, value: "5+", label: "Years Experience" },
+  { icon: FaStar, value: "1000+", label: "Happy Customers" },
+  { icon: FaUsers, value: "500+", label: "Expert Technicians" },
+  { icon: FaGlobe, value: "50+", label: "Service Locations" },
 ];
 
 const features = [
   {
     icon: FaHandshake,
-    title: 'Trust & Reliability',
-    description: 'We build lasting relationships through quality service and transparency'
+    title: "Trust & Reliability",
+    description:
+      "We build lasting relationships through quality service and transparency",
   },
   {
     icon: FaSmile,
-    title: 'Customer Satisfaction',
-    description: 'Your happiness is our top priority - we go above and beyond'
-  }
+    title: "Customer Satisfaction",
+    description: "Your happiness is our top priority - we go above and beyond",
+  },
 ];
 
 const FirstPage: React.FC = () => {
@@ -44,25 +52,25 @@ const FirstPage: React.FC = () => {
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 50 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h1 
+          <motion.h1
             className="hero-title"
             animate={{ scale: [1, 1.02, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             Make Life Easier With Hire_Me
           </motion.h1>
-          <p className="hero-subtitle" style={{ textAlign: 'center' }}>
-         
-At HireMe, we believe every problem has a fast, affordable fix.<br />
-Find skilled experts you can trust — no hassle, no waiting.<br />
-
+          <p className="hero-subtitle" style={{ textAlign: "center" }}>
+            At HireMe, we believe every problem has a fast, affordable fix.
+            <br />
+            Find skilled experts you can trust — no hassle, no waiting.
+            <br />
           </p>
           <div className="hero-cta">
-            <motion.button 
+            <motion.button
               className="cta-button primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/user-type')}
+              onClick={() => navigate("/user-type")}
             >
               Explore Services
             </motion.button>
@@ -123,7 +131,7 @@ Find skilled experts you can trust — no hassle, no waiting.<br />
             className="cta-button primary"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/user-type')}
+            onClick={() => navigate("/user-type")}
           >
             Start Your Journey
           </motion.button>
