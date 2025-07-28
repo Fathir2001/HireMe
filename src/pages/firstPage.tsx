@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FaAward, FaStar, FaUsers, FaGlobe, FaHandshake, FaSmile } from 'react-icons/fa';
 import Logo from '../components/Logo';
-import './FirstPage.css';
+import './firstPage.css';
 
 const achievements = [
   { icon: FaAward, value: '5+', label: 'Years Experience' },
