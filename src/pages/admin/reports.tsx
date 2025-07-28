@@ -13,10 +13,8 @@ import {
 import { useNavigate } from "react-router-dom";
 // @ts-expect-error - html2pdf.js doesn't have TypeScript definitions
 import html2pdf from "html2pdf.js";
-import { buildApiUrl } from "../../config/api";
+import { API_ENDPOINTS } from "../../config/api";
 import "./reports.css";
-
-const API_BASE_URL = buildApiUrl("");
 
 interface RevenueData {
   month: string;
@@ -80,9 +78,13 @@ const ReportsPage: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
+        const token = localStorage.getItem("adminToken");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         // Fetch analytics data
         const analyticsResponse = await axios.get(
-          `${API_BASE_URL}/analytics/dashboard`
+          API_ENDPOINTS.ADMIN.DASHBOARD,
+          { headers }
         );
         const analyticsData = analyticsResponse.data;
 
@@ -94,10 +96,10 @@ const ReportsPage: React.FC = () => {
 
         // Fetch additional data for reports
         const [, , completedServicesResponse, ,] = await Promise.all([
-          axios.get(`${API_BASE_URL}/service-needers/all`),
-          axios.get(`${API_BASE_URL}/service-providers/approved`),
-          axios.get(`${API_BASE_URL}/service-requests/completed-services`),
-          axios.get(`${API_BASE_URL}/service-requests/all`),
+          axios.get(API_ENDPOINTS.ADMIN.ALL_SERVICE_NEEDERS, { headers }),
+          axios.get(API_ENDPOINTS.SERVICE_PROVIDER.APPROVED, { headers }),
+          axios.get(API_ENDPOINTS.ADMIN.COMPLETED_SERVICES, { headers }),
+          axios.get(API_ENDPOINTS.ADMIN.ALL_SERVICE_REQUESTS, { headers }),
         ]);
 
         const completedServices = completedServicesResponse.data;

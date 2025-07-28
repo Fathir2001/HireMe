@@ -13,10 +13,8 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { API_CONFIG } from "../../config/api";
+import { API_ENDPOINTS } from "../../config/api";
 import "./settings.css";
-
-const API_BASE_URL = API_CONFIG.API_BASE;
 
 interface AdminProfile {
   email: string;
@@ -79,7 +77,7 @@ const AdminSettings: React.FC = () => {
       setLoading(true);
       try {
         // Fetch admin profile and settings from API
-        const response = await axios.get(`${API_BASE_URL}/admin/profile`, {
+        const response = await axios.get(API_ENDPOINTS.ADMIN.PROFILE, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -164,7 +162,7 @@ const AdminSettings: React.FC = () => {
       }
 
       const response = await axios.put(
-        `${API_BASE_URL}/admin/profile`,
+        API_ENDPOINTS.ADMIN.PROFILE,
         updateData,
         {
           headers: {
@@ -220,7 +218,7 @@ const AdminSettings: React.FC = () => {
       }
 
       const response = await axios.put(
-        `${API_BASE_URL}/admin/security-settings`,
+        API_ENDPOINTS.ADMIN.SECURITY_SETTINGS,
         securitySettings,
         {
           headers: {

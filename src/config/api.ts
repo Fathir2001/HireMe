@@ -31,6 +31,13 @@ export const API_ENDPOINTS = {
     COMPLETED_SERVICES: buildApiUrl('service-requests/completed-services'),
     ACTIVE_SERVICES: buildApiUrl('service-requests/active-services'),
     ALL_SERVICE_REQUESTS: buildApiUrl('service-requests/all'),
+    // Admin service management endpoints
+    SERVICES: buildApiUrl('service-requests'),
+    SERVICES_APPROVED: buildApiUrl('service-requests/approved'),
+    SERVICES_REJECTED: buildApiUrl('service-requests/rejected'),
+    // Admin profile and settings endpoints
+    PROFILE: buildApiUrl('admin/profile'),
+    SECURITY_SETTINGS: buildApiUrl('admin/security-settings'),
   },
   
   // Service Needer endpoints

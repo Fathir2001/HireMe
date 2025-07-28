@@ -8,7 +8,7 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { buildApiUrl } from "../../config/api";
+import { API_ENDPOINTS } from "../../config/api";
 import "./services.css";
 
 // Interface to match backend data structure
@@ -53,8 +53,6 @@ interface ServiceDetailsModalProps {
   service: FormattedService | null;
   onClose: () => void;
 }
-
-const API_BASE_URL = buildApiUrl("");
 
 // Service Details Modal Component
 const ServiceDetailsModal: React.FC<ServiceDetailsModalProps> = ({
@@ -160,22 +158,25 @@ const ServicesPage: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
+        const token = localStorage.getItem("adminToken");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         let endpoint = "";
 
         // Select the appropriate endpoint based on active tab
         switch (activeTab) {
           case "requested":
-            endpoint = `${API_BASE_URL}/service-requests`;
+            endpoint = API_ENDPOINTS.ADMIN.SERVICES;
             break;
           case "approved":
-            endpoint = `${API_BASE_URL}/service-requests/approved`;
+            endpoint = API_ENDPOINTS.ADMIN.SERVICES_APPROVED;
             break;
           case "rejected":
-            endpoint = `${API_BASE_URL}/service-requests/rejected`;
+            endpoint = API_ENDPOINTS.ADMIN.SERVICES_REJECTED;
             break;
         }
 
-        const response = await axios.get(endpoint);
+        const response = await axios.get(endpoint, { headers });
         console.log("Raw service data:", response.data);
         const formattedServices = formatServicesData(response.data, activeTab);
         console.log("Formatted services:", formattedServices);
