@@ -14,6 +14,8 @@ const CompletedService = require("../models/CompletedService");
 const ConnectedService = require("../models/ConnectedService");
 const Notification = require("../models/Notification");
 const SNNotification = require("../models/SNNotification");
+const ServiceRecommendation = require("../models/ServiceRecommendation");
+const UserPreference = require("../models/UserPreference");
 
 // Connect to MongoDB
 const connectDB = async () => {
@@ -42,7 +44,7 @@ const randomPhone = () => {
 
 // Sample data arrays
 const serviceTypes = [
-  "Electrical Work",
+  "Electrical",
   "Plumbing",
   "HVAC",
   "Carpentry",
@@ -51,7 +53,9 @@ const serviceTypes = [
   "Landscaping",
   "Roofing",
   "Appliance Repair",
-  "Handyman Services",
+  "Pest Control",
+  "Home Security",
+  "Flooring",
 ];
 
 const locations = [
@@ -489,6 +493,210 @@ const generateSNNotifications = async (
   return snNotifications;
 };
 
+// Generate AI Service Recommendations
+const generateServiceRecommendations = async (
+  serviceNeeders,
+  approvedProviders
+) => {
+  console.log("Creating AI Service Recommendations...");
+  const recommendations = [];
+
+  const recommendationTypes = [
+    "predictive_maintenance",
+    "seasonal_recommendation",
+    "usage_based",
+    "emergency_prevention",
+  ];
+  const reasons = {
+    predictive_maintenance: [
+      "Your HVAC system shows signs of wear based on usage patterns",
+      "Plumbing maintenance overdue based on last service date",
+      "Electrical inspection recommended for safety compliance",
+      "Regular maintenance prevents costly emergency repairs",
+    ],
+    seasonal_recommendation: [
+      "Winter is approaching - heating system maintenance recommended",
+      "Spring cleaning services typically needed this time of year",
+      "Summer AC tune-up prevents breakdown during hot weather",
+      "Fall gutter cleaning before winter weather arrives",
+    ],
+    usage_based: [
+      "You typically book plumbing services every 6 months",
+      "Based on your history, you prefer weekend appointments",
+      "Similar users often need this service after recent bookings",
+      "Your service pattern suggests upcoming maintenance needs",
+    ],
+    emergency_prevention: [
+      "Potential electrical hazard detected - immediate attention needed",
+      "Water damage risk identified in basement area",
+      "Gas leak prevention inspection urgently recommended",
+      "Structural safety concern requires professional assessment",
+    ],
+  };
+
+  for (const serviceNeeder of serviceNeeders) {
+    // Generate 2-5 recommendations per user
+    const numRecommendations = Math.floor(Math.random() * 4) + 2;
+
+    for (let i = 0; i < numRecommendations; i++) {
+      const recommendationType =
+        recommendationTypes[
+          Math.floor(Math.random() * recommendationTypes.length)
+        ];
+      const serviceType =
+        serviceTypes[Math.floor(Math.random() * serviceTypes.length)];
+      const provider =
+        approvedProviders[Math.floor(Math.random() * approvedProviders.length)];
+      const reasonOptions = reasons[recommendationType];
+      const reason =
+        reasonOptions[Math.floor(Math.random() * reasonOptions.length)];
+
+      // Emergency prevention has higher confidence and priority
+      const baseConfidence =
+        recommendationType === "emergency_prevention" ? 0.85 : 0.65;
+      const confidence = baseConfidence + Math.random() * 0.15;
+
+      const priority =
+        recommendationType === "emergency_prevention"
+          ? "urgent"
+          : confidence > 0.8
+          ? "high"
+          : confidence > 0.65
+          ? "medium"
+          : "low";
+
+      const recommendation = new ServiceRecommendation({
+        userId: serviceNeeder._id,
+        serviceType: serviceType,
+        recommendationType: recommendationType,
+        priority: priority,
+        title: `${serviceType} ${recommendationType
+          .replace("_", " ")
+          .replace(/\b\w/g, (l) => l.toUpperCase())}`,
+        description: reason,
+        predictedDate: randomDate(
+          new Date(),
+          new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        ),
+        confidenceScore: Math.round(confidence * 100) / 100,
+        reasons: [reason],
+        estimatedCost: {
+          min: Math.floor(Math.random() * 100) + 50,
+          max: Math.floor(Math.random() * 200) + 150,
+        },
+        suggestedProviders: [
+          {
+            providerId: provider._id,
+            name: provider.fullName,
+            rating: Math.round((Math.random() * 2 + 3) * 10) / 10, // 3.0 to 5.0
+            serviceFee: provider.serviceFee,
+          },
+        ],
+        isActive: true,
+        isAccepted: false,
+        isDismissed: Math.random() > 0.8, // 20% dismissed
+        createdAt: randomDate(new Date(2024, 0, 1), new Date()),
+        updatedAt: randomDate(new Date(2024, 0, 1), new Date()),
+      });
+
+      recommendations.push(recommendation);
+    }
+  }
+
+  await ServiceRecommendation.insertMany(recommendations);
+  console.log(`Created ${recommendations.length} AI Service Recommendations`);
+  return recommendations;
+};
+
+// Generate User Preferences
+const generateUserPreferences = async (serviceNeeders) => {
+  console.log("Creating User Preferences...");
+  const preferences = [];
+
+  for (const serviceNeeder of serviceNeeders) {
+    // Create random preferences for each user
+    const servicePreferences = {};
+    serviceTypes.forEach((serviceType) => {
+      servicePreferences[serviceType.replace(/\s+/g, "")] = {
+        importance: Math.floor(Math.random() * 5) + 1, // 1-5
+        frequency: ["weekly", "monthly", "quarterly", "yearly"][
+          Math.floor(Math.random() * 4)
+        ],
+        budgetRange: {
+          min: Math.floor(Math.random() * 100) + 20,
+          max: Math.floor(Math.random() * 300) + 100,
+        },
+      };
+    });
+
+    const preference = new UserPreference({
+      userId: serviceNeeder._id,
+      homeProfile: {
+        homeType: ["apartment", "house", "condo", "townhouse"][
+          Math.floor(Math.random() * 4)
+        ],
+        homeAge: Math.floor(Math.random() * 50) + 1,
+        homeSize: {
+          squareFeet: Math.floor(Math.random() * 3000) + 500,
+          bedrooms: Math.floor(Math.random() * 5) + 1,
+          bathrooms: Math.floor(Math.random() * 3) + 1,
+        },
+        location: {
+          zipCode: `${Math.floor(Math.random() * 90000) + 10000}`,
+          climate: ["tropical", "dry", "temperate", "continental"][
+            Math.floor(Math.random() * 4)
+          ],
+          environment: ["urban", "suburban", "rural"][
+            Math.floor(Math.random() * 3)
+          ],
+        },
+      },
+      behaviorProfile: {
+        serviceFrequency: ["very_low", "low", "moderate", "high"][
+          Math.floor(Math.random() * 4)
+        ],
+        maintenanceStyle: ["reactive", "proactive", "preventive"][
+          Math.floor(Math.random() * 3)
+        ],
+        riskTolerance: ["low", "medium", "high"][Math.floor(Math.random() * 3)],
+        techSavviness: ["low", "medium", "high"][Math.floor(Math.random() * 3)],
+        pricesensitivity: ["low", "medium", "high"][
+          Math.floor(Math.random() * 3)
+        ],
+      },
+      notificationSettings: {
+        recommendations: {
+          enabled: Math.random() > 0.2, // 80% enabled
+          frequency: ["immediate", "daily", "weekly"][
+            Math.floor(Math.random() * 3)
+          ],
+          types: [
+            "predictive_maintenance",
+            "seasonal_recommendation",
+            "usage_based",
+          ],
+        },
+        reminders: {
+          enabled: Math.random() > 0.3, // 70% enabled
+          advance: Math.floor(Math.random() * 14) + 1, // 1-14 days
+        },
+        emergencyAlerts: {
+          enabled: Math.random() > 0.1, // 90% enabled
+          urgentOnly: Math.random() > 0.7, // 30% urgent only
+        },
+      },
+      createdAt: randomDate(new Date(2024, 0, 1), new Date()),
+      updatedAt: randomDate(new Date(2024, 0, 1), new Date()),
+    });
+
+    preferences.push(preference);
+  }
+
+  await UserPreference.insertMany(preferences);
+  console.log(`Created ${preferences.length} User Preferences`);
+  return preferences;
+};
+
 // Main seeding function
 const seedDatabase = async () => {
   try {
@@ -508,6 +716,8 @@ const seedDatabase = async () => {
       ConnectedService.deleteMany({}),
       Notification.deleteMany({}),
       SNNotification.deleteMany({}),
+      ServiceRecommendation.deleteMany({}),
+      UserPreference.deleteMany({}),
     ]);
 
     console.log("Starting database seeding...");
@@ -538,6 +748,13 @@ const seedDatabase = async () => {
       rejectedServices
     );
 
+    // Generate AI data
+    const serviceRecommendations = await generateServiceRecommendations(
+      serviceNeeders,
+      approvedProviders
+    );
+    const userPreferences = await generateUserPreferences(serviceNeeders);
+
     console.log("\n🎉 Database seeding completed successfully!");
     console.log("\n📊 Summary:");
     console.log(`✅ Service Needers: ${serviceNeeders.length}`);
@@ -551,6 +768,10 @@ const seedDatabase = async () => {
     console.log(`✅ Connected Services: ${connectedServices.length}`);
     console.log(`✅ Notifications: ${notifications.length}`);
     console.log(`✅ SN Notifications: ${snNotifications.length}`);
+    console.log(
+      `🤖 AI Service Recommendations: ${serviceRecommendations.length}`
+    );
+    console.log(`⚙️ User Preferences: ${userPreferences.length}`);
 
     process.exit(0);
   } catch (error) {

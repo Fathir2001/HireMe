@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./trackService.css";
-import Modal from "react-modal";
-Modal.setAppElement("#root");
+import React, { useEffect, useState } from "react";
 import {
-  FaCalendarCheck,
-  FaTools,
-  FaMapMarkerAlt,
-  FaClock,
-  FaUser,
-  FaPhone,
   FaArrowLeft,
   FaCheckCircle,
   FaHourglass,
-  FaTimesCircle,
+  FaPhone,
   FaSpinner,
+  FaTimesCircle,
+  FaTools,
+  FaUser,
 } from "react-icons/fa";
+import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import "./trackService.css";
+Modal.setAppElement("#root");
 
 interface ServiceRequest {
   _id: string; // This should be the MongoDB ObjectId as a string
@@ -723,6 +720,12 @@ const TrackService: React.FC = () => {
           <h1>HireMe</h1>
         </div>
         <div className="nav-right">
+          <button
+            className="ai-recommendations-btn"
+            onClick={() => navigate("/service-needer/ai-recommendations")}
+          >
+            AI Recommendations
+          </button>
           <button
             className="back-to-book-btn"
             onClick={() => navigate("/book-service")}

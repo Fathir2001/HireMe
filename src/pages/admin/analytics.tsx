@@ -523,7 +523,7 @@ const AdminAnalytics: React.FC = () => {
               </div>
             </div>
             {/* Service Status Distribution */}
-            <div className="ana-chart-card">
+            {/* <div className="ana-chart-card">
               <div className="ana-chart-header">
                 <h3>Service Status</h3>
                 <p>Current status distribution</p>
@@ -559,7 +559,7 @@ const AdminAnalytics: React.FC = () => {
                   </Bar>
                 </BarChart>
               </div>
-            </div>
+            </div> */}
             {/* Top Providers Performance */}
             <div className="ana-chart-card large">
               <div className="ana-chart-header">

@@ -9,6 +9,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const serviceNeederRoutes = require("./routes/serviceNeederRoutes");
 const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
+const aiRecommendationRoutes = require("./routes/aiRecommendationRoutes");
 const authMiddleware = require("./middleware/auth");
 const { createTransport } = require("nodemailer");
 const adminServiceRoutes = require("./routes/adminServiceRoutes");
@@ -62,6 +63,7 @@ app.use("/api/service-needers", serviceNeederRoutes);
 app.use("/api/service-requests", serviceRequestRoutes);
 app.use("/api/service-requests", adminServiceRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/ai-recommendations", aiRecommendationRoutes);
 app.set("io", io);
 
 // Socket.io connection handler

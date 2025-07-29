@@ -543,6 +543,12 @@ const BookService: React.FC = () => {
         </div>
         <div className="SN-BS-nav-right">
           <button
+            className="SN-BS-ai-recommendations-btn"
+            onClick={() => navigate("/service-needer/ai-recommendations")}
+          >
+            AI Recommendations
+          </button>
+          <button
             className="SN-BS-track-service-btn"
             onClick={() => navigate("/service-needer/track-service")}
           >

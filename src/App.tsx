@@ -11,6 +11,8 @@ import AdminSettings from "./pages/admin/settings";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import FirstPage from "./pages/firstPage";
+import AIPreferences from "./pages/serviceNeeder/aiPreferences";
+import AIRecommendations from "./pages/serviceNeeder/aiRecommendations";
 import AllServiceProviders from "./pages/serviceNeeder/allServiceProviders";
 import BookService from "./pages/serviceNeeder/bookService";
 import ServiceNeederHomePage from "./pages/serviceNeeder/homePage";
@@ -72,6 +74,14 @@ function App() {
         <Route
           path="/service-needer/all-service-providers"
           element={<AllServiceProviders />}
+        />
+        <Route
+          path="/service-needer/ai-recommendations"
+          element={<AIRecommendations />}
+        />
+        <Route
+          path="/service-needer/ai-preferences"
+          element={<AIPreferences />}
         />
         <Route
           path="/service-provider/services"
