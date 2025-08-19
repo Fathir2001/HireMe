@@ -1,0 +1,105 @@
+HireMe Project – APIs & Services Documentation
+1. Backend APIs (Express.js REST API)
+1.1 Admin APIs (/api/admin)
+
+	POST /login – Admin login
+	GET /profile – Get admin profile (protected)
+	PUT /profile – Update admin profile (protected)
+	PUT /security-settings – Update security settings 	(protected)
+
+1.2 Service Provider APIs (/api/service-providers)
+
+	POST /register – Register service provider
+	GET /all – Get all service providers
+	PUT /approve/:providerId – Approve service provider
+	GET /approved – Get approved service providers
+	PUT /reject/:providerId – Reject service provider
+	GET /rejected – Get rejected service providers
+	POST /login – Service provider login
+	GET /profile – Get profile (protected)
+	PUT /profile/update – Update profile (protected)
+	POST /forgot-password – Generate OTP for password reset
+	POST /reset-password – Reset password with OTP
+
+1.3 Service Needer APIs (/api/service-needers)
+
+	POST /register – Register service needer
+	POST /login – Service needer login
+	POST /find-providers – Find matching providers 	(protected)
+	POST /forgot-password – Generate OTP for password reset
+	POST /reset-password – Reset password with OTP
+	POST /reset-password-token – Reset password with token
+	GET /all – Get all service needers (admin only)
+	GET /available-locations – Get available service 	locations (protected)
+
+1.4 Service Request APIs (/api/service-requests)
+
+	POST /create – Create service request (protected)
+	GET /my-requests – Get needer’s requests (protected)
+	GET /provider-requests – Get provider’s requests 	(protected)
+	PATCH /:requestId/status – Update request status 	(protected)
+	GET /notifications – Get provider notifications 	(protected)
+	POST /reject-service/:serviceId – Reject service 	(protected)
+	GET /notifications/:notificationId/details – Get 	notification details (protected)
+	PATCH /notifications/mark-read – Mark notifications as 	read (protected)
+	DELETE /notifications/:notificationId – Delete 	notification (protected)
+	POST /:requestId/accept – Accept service request 	(protected)
+	GET /sn-notifications – Get needer notifications 	(protected)
+	PATCH /sn-notifications/mark-read – Mark SN 	notifications as read (protected)
+	GET /my-rejected-services – Get rejected services 	(protected)
+	GET /provider-accepted-services – Get provider’s 	accepted services (protected)
+	POST /start-service/:serviceId/generate-otp – Generate 	service OTP (protected)
+	POST /start-service/verify-otp – Verify service OTP 	(protected)
+	GET /connected-service/:serviceId – Get connected 	service status (protected)
+	GET /test-service/:serviceId – Test service (protected)
+	GET /accepted-service-id/:requestId – Get accepted 	service ID (protected)
+	GET /my-connected-services – Get needer’s connected 	services (protected)
+	POST /activate-service/:connectedServiceId – Activate 	service (protected)
+	GET /my-active-services – Get needer’s active services 	(protected)
+	GET /provider-active-services – Get provider’s active 	services (protected)
+	GET /active-connected-services – Get active connected 	services (protected)
+	POST /complete-service/:activeServiceId – Complete 	service (protected)
+	GET /my-completed-services – Get needer’s completed 	services (protected)
+	GET /provider-completed-services – Get provider’s 	completed services (protected)
+	GET /all-service-providers – Get all approved service 	providers (protected)
+	GET /completed-services – Get completed services 	(admin)
+	GET /active-services – Get active services (admin)
+	GET /all – Get all service requests (admin)
+
+1.5 Admin Service Management APIs (/api/service-requests)
+
+	GET / – Get all pending service requests
+	GET /approved – Get all approved services
+	GET /rejected – Get all rejected services
+
+1.6 Analytics APIs (/api/analytics)
+
+	GET /dashboard – Get analytics dashboard data
+
+2. External APIs & Services
+
+	MongoDB Atlas – Cloud database (via Mongoose ODM)
+	Gmail SMTP (Nodemailer) – Email for OTPs, 	notifications, verification
+	Socket.IO – Real-time communication for:
+	Notifications
+	Request updates
+	Live service status
+	OTP events
+
+3. Frontend APIs (Client-side)
+
+	Axios HTTP Client – REST API calls, token handling, 	interceptors
+	Socket.IO Client – Real-time event-driven updates
+	React Router DOM – Client-side routing
+	Vite Build Tool – Dev server, HMR, build optimization
+
+4. Authentication & Security
+
+	JWT – Token-based authentication & session management
+	Bcrypt – Password hashing & verification
+	CORS – Cross-origin request handling
+
+5. Development Tools
+
+	Nodemon – Auto-restart on code changes
+	TypeScript – Type checking, static analysis
